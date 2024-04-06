@@ -5,6 +5,7 @@ const app = express();
 const morgan = require("morgan");
 const helmet = require("helmet");
 const authRouter = require("./router/auth");
+const noteRouter = require("./router/notes");
 
 dotenv.config()
 
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
         console.log(err)
     });
 app.use("/api/auth", authRouter);
+app.use("/api/notes", noteRouter);
 
 app.listen(8001, () => {
     console.log(" App is running on port ", 8001);
