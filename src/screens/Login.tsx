@@ -1,19 +1,27 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import React, { useState } from 'react'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { RootNavigationProps } from '../AppNavigator'
-import { TextInput } from 'react-native-gesture-handler'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootNavigationProps } from '../AppNavigator';
+import { TextInput } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../redux/slices/LoginSlice';
+import Loader from '../component/Loader';
+
 
 interface MyProps {
   navigation: StackNavigationProp<RootNavigationProps, 'Login'>
 }
 const Login = ({ navigation }: MyProps) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState<String>('');
   const [password, setPassword] = useState<String>('')
   const [badEmail, setbadEmail] = useState<boolean>(false);
   const [badPassword, setbadPassword] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<String>("");
+  const [loader, setLoader] = useState<boolean>(false);
+
   const validate = () => {
+
     let valid = true;
     if (email == '') {
       setbadEmail(true);
@@ -33,6 +41,7 @@ const Login = ({ navigation }: MyProps) => {
   }
 
   const login = async () => {
+    setLoader(true);
     const header = new Headers();
     header.append("Content-Type", "application/json");
     const body = {
@@ -50,7 +59,17 @@ const Login = ({ navigation }: MyProps) => {
       setErrMsg(data.message);
       return;
     }
-    navigation.navigate('Home');
+    /**"_id": "661042a6e3ffe48c002440f4", "createdAt": "2024-04-05T18:27:50.076Z", "email": "fristanlobo@gmail.com", "name": "fristan", "password": "fristan123", "updatedAt": "2024-04-05T18:27:50.076Z" */
+    // dispatch(addUser({
+    //   id: data._id,
+    //   email: data.email,
+    //   name: data.name,
+    //   password: data.password
+    // }))
+    setLoader(false);
+    navigation.navigate('Home', {
+      id: data._id,
+    });
   }
 
   const handleOnFocus = () => {
@@ -156,10 +175,11 @@ const Login = ({ navigation }: MyProps) => {
                 SignUp here !
               </Text>
             </TouchableOpacity>
+
           </View>
         </View>
       </View>
-
+      <Loader visible={loader} />
     </View >
   )
 }

@@ -8,13 +8,15 @@
 import React from 'react';
 
 import AppNavigator from './src/AppNavigator';
-
-
-
+import { Provider } from 'react-redux';
+import appStore from './src/redux/appStore/appStore';
 const App = () => {
 
   return (
-    <AppNavigator />
+    <Provider store={appStore}>
+      < AppNavigator />
+    </Provider >
+
   );
 }
 
