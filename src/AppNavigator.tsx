@@ -6,12 +6,14 @@ import Splash from './screens/Splash';
 import Home from './screens/Home';
 import Singup from './screens/Singup';
 import Login from './screens/Login';
+import AddNote from './screens/AddNote';
 
 export type RootNavigationProps = {
     Splash: undefined;
     Login: undefined;
     Signup: undefined;
     Home: undefined;
+    AddNote: undefined;
 }
 
 const Stack = createStackNavigator<RootNavigationProps>();
@@ -38,6 +40,10 @@ const AppNavigator = () => {
                 <Stack.Screen
                     name='Login'
                     component={Login}
+                />
+                <Stack.Screen
+                    name='AddNote'
+                    component={AddNote}
                 />
             </Stack.Navigator>
         </NavigationContainer>
